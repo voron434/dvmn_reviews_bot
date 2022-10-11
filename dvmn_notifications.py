@@ -53,10 +53,8 @@ if __name__ == '__main__':
 
     while True:
         with suppress(requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError):
-            print(1)
             timestamp = None
             review_status, timestamp, review_answer = long_pool_dvmn_api(dvmn_token, timestamp)
-            print(review_answer)
             if review_status != 'found':
                 continue
             for attempt in review_answer['new_attempts']:
