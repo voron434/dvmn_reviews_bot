@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import requests
 import telegram
 
+
 def long_pool_dvmn_api(token, timestamp=None):
     """Long pool dvmn.org reviews API
 
