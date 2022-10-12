@@ -37,7 +37,6 @@ if __name__ == '__main__':
     tg_token = os.getenv('TELEGRAM_API_TOKEN')
     bot = telegram.Bot(token=tg_token)
     chat_id = os.getenv('TELEGRAM_CHAT_ID')
-    print(chat_id)
 
     dvmn_token = os.getenv('DVMN_API_TOKEN')
     headers = {
