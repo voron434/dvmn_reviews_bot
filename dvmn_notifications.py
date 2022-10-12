@@ -18,8 +18,6 @@ def long_pool_dvmn_api(token, timestamp=None):
         timestamp (int, optional): Timestamp of last request to API
     
     Returns:
-        status (str): Status of response
-        timestamp (int): Timestamp of last request
         review_answer (dict): Full decoded response from API
     """
     dvmn_api_url = 'https://dvmn.org/api/long_polling/'
@@ -31,12 +29,7 @@ def long_pool_dvmn_api(token, timestamp=None):
                             timeout=90)
     response.raise_for_status()
     review_answer = response.json()
-    review_status = review_answer['status']
-    if review_status == 'timeout':
-        timestamp = review_answer['timestamp_to_request']
-    if review_status == 'found':
-        timestamp = review_answer['last_attempt_timestamp']
-    return review_status, timestamp, review_answer
+    return review_answer
 
 
 if __name__ == '__main__':
@@ -54,8 +47,14 @@ if __name__ == '__main__':
     while True:
         with suppress(requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError):
             timestamp = None
-            review_status, timestamp, review_answer = long_pool_dvmn_api(dvmn_token, timestamp)
-            if review_status != 'found':
+            review_answer = long_pool_dvmn_api(dvmn_token, timestamp)
+            review_status = review_answer['status']
+            if review_status == 'timeout':
+                timestamp = review_answer['timestamp_to_request']
+                continue
+            elif review_status == 'found':
+                timestamp = review_answer['last_attempt_timestamp']
+            else:
                 continue
             for attempt in review_answer['new_attempts']:
                 lesson_title = attempt['lesson_title']
