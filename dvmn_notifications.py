@@ -9,6 +9,7 @@ import telegram
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
     logging.info('bot started')
     load_dotenv()
     tg_token = os.getenv('TELEGRAM_API_TOKEN')
