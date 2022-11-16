@@ -1,5 +1,6 @@
 import os
 import time
+import logging
 from contextlib import suppress
 from dotenv import load_dotenv
 
@@ -8,6 +9,7 @@ import telegram
 
 
 if __name__ == '__main__':
+    logging.info('bot started')
     load_dotenv()
     tg_token = os.getenv('TELEGRAM_API_TOKEN')
     bot = telegram.Bot(token=tg_token)
